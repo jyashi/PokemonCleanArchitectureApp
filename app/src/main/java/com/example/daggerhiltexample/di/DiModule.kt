@@ -1,5 +1,7 @@
 package com.example.daggerhiltexample.di
 
+import com.example.daggerhiltexample.data.domain.repository.RepositoryImpl
+import com.example.daggerhiltexample.data.domain.repository.RepositoryInterface
 import com.example.daggerhiltexample.data.network.ApiInterface
 import dagger.Module
 import dagger.Provides
@@ -14,8 +16,13 @@ object DiModule {
     private const val url: String = ""
     @Provides
     @Singleton
-
-    fun injectApiInterface(): ApiInterface {
+    fun injectApi(): ApiInterface {
         return Retrofit.Builder().baseUrl(url).build().create(ApiInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun injectRepository(): RepositoryInterface {
+        return RepositoryImpl(injectApi())
     }
 }
