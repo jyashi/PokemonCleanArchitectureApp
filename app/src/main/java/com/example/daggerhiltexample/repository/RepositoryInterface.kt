@@ -1,4 +1,4 @@
-package com.example.daggerhiltexample.data.domain.repository
+package com.example.daggerhiltexample.repository
 
 interface RepositoryInterface {
     suspend fun netWorkGetRequest()

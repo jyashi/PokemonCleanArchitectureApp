@@ -1,8 +1,8 @@
 package com.example.daggerhiltexample.di
 
 import android.app.Application
-import com.example.daggerhiltexample.data.domain.repository.RepositoryImpl
-import com.example.daggerhiltexample.data.domain.repository.RepositoryInterface
+import com.example.daggerhiltexample.repository.RepositoryImpl
+import com.example.daggerhiltexample.repository.RepositoryInterface
 import com.example.daggerhiltexample.data.network.ApiInterface
 import dagger.Module
 import dagger.Provides
@@ -14,11 +14,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DiModule {
-    private const val url: String = "http:text.com"
+    private const val base_url: String = "https://pokeapi.co/"
     @Provides
     @Singleton
     fun injectApi(): ApiInterface {
-        return Retrofit.Builder().baseUrl(url).build().create(ApiInterface::class.java)
+        return Retrofit.Builder().baseUrl(base_url).build().create(ApiInterface::class.java)
     }
 
     @Provides

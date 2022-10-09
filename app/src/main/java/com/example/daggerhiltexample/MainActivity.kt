@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.daggerhiltexample.di.DiModule
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-                        Text("View model address ---> $viewModel")
+                        Text("View model address ---> ${DiModule.injectApi()}")
+
                     }
                 }
             }
