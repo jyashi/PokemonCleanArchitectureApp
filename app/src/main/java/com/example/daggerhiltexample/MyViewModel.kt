@@ -6,7 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MyViewModel@Inject constructor(private val repositoryInterface: RepositoryInterface): ViewModel() {
+class MyViewModel@Inject constructor(private val repositoryInterface: RepositoryInterface, private val provideString: String): ViewModel() {
 
+    fun testString() = provideString
 
 }

@@ -17,6 +17,7 @@ import com.example.daggerhiltexample.di.DiModule
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,7 +32,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-                        Text("View model address ---> ${DiModule.injectApi()}")
+
+                        Text("This is it --> ${viewModel.testString()}")
 
                     }
                 }
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String) {
