@@ -11,7 +11,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
+-keepattributes Signature
+-keepattributes Exceptions
+-dontnote okhttp3.**, retrofit2.**
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepclasseswithmembers class * {
+     @retrofit2.http.* <methods>;
+ }
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

@@ -7,8 +7,8 @@ data class ApiDetailResponse(
     val id: Int,
     @Json(name = "name")
     val name: String,
-    @Json(name = "id")
-    val types: List<String>,
+    @Json(name = "types")
+    val types: List<Any>,
 
 )
 
