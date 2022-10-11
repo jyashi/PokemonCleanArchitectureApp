@@ -35,6 +35,10 @@ object DiModule {
         return RepositoryImpl(injectApi(), appContext)
     }
 
+//    @Provides
+//    @Singleton
+//    fun injectViewModel()
+
     @Provides
     @Singleton
     fun provideString(): String = "This is test string from DI"
