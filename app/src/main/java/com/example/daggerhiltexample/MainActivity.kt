@@ -14,12 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.daggerhiltexample.di.DiModule
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
-import com.example.daggerhiltexample.ui.theme.components.LazyListComponent
+import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-                        LazyListComponent(viewModel = viewModel)
+                        LazyGridComponent(viewModel = viewModel)
                         Text("This is it --> ${viewModel.testString()}")
                         Button(onClick = {viewModel.getPokemonDetails("2")}) {
                             Text("Click to contact api")
