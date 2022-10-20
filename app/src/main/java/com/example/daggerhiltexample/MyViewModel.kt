@@ -18,8 +18,16 @@ class MyViewModel @Inject constructor(
     private val provideString: String
 ) : ViewModel() {
     private val _data =
-        mutableStateOf(ApiDetailResponse(id = 0, name = "name", types = emptyList()))
+        mutableStateOf(
+            ApiDetailResponse(
+                id = 0,
+                name = "name",
+                types = emptyList(),
+                sprites = Any()
+            )
+        )
     var data: MutableState<ApiDetailResponse> = _data
+
 
     init {
         getPokemonDetails("1")
@@ -30,11 +38,11 @@ class MyViewModel @Inject constructor(
     fun getPokemonDetails(id: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
+            val result = repositoryInterface.netWorkGetRequest(id).body()
             println(
-                "From view model response --> ${
-                    repositoryInterface.netWorkGetRequest(id).body()
-                } "
+                "From view model response --> $result"
             )
+            
             _data.value = repositoryInterface.netWorkGetRequest(id).body()!!
         }
     }

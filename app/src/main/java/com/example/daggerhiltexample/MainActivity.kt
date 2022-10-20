@@ -37,6 +37,13 @@ class MainActivity : ComponentActivity() {
                         Text("Main activity model --> $viewModel")
 
 
+                        Button(onClick = {
+                           val result =  viewModel.getPokemonDetails("1")
+                            println("Result --> $result")
+                        }) {
+                            Text("Call api")
+
+                        }
                     }
                 }
             }

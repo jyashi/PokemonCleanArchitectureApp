@@ -25,7 +25,8 @@ object DiModule {
     @Singleton
     fun injectApi(): ApiInterface {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        return Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))
+        return Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(base_url)
             .build()
             .create(ApiInterface::class.java)
