@@ -26,16 +26,16 @@ class MainActivity : ComponentActivity() {
             DaggerHiltExampleTheme {
                 // A surface container using the 'background' color from the theme
                 val viewModel  = hiltViewModel<MyViewModel>()
+                println("Hilt model --> $viewModel")
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-                        LazyGridComponent(viewModel = viewModel)
-                        Text("This is it --> ${viewModel.testString()}")
-                        Button(onClick = {viewModel.getPokemonDetails("2")}) {
-                            Text("Click to contact api")
-                        }
+                        LazyGridComponent()
+
+                        Text("Main activity model --> $viewModel")
+
 
                     }
                 }

@@ -3,24 +3,37 @@ package com.example.daggerhiltexample.ui.theme.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.daggerhiltexample.MyViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+
+class GirdPage @Inject constructor(viewModel: HiltViewModel) {
+    init {
+        println("Grid page model --> $viewModel")
+    }
+}
+
 
 @Composable
-fun LazyGridComponent(viewModel: MyViewModel, imageList: List<String>, imageUrl: String) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 128.dp)
-    ) {
-        items(photos) { photo ->
-            PhotoItem(photo)
-        }
-    }
+fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel()) {
+//    LazyVerticalGrid(
+//        columns = GridCells.Adaptive(minSize = 128.dp)
+//    ) {
+//        items(photos) { photo ->
+//            PhotoItem(photo)
+//        }
+//    }
+    Text("View model address --> $viewModel")
 
 }
 
