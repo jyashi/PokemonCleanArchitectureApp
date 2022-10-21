@@ -1,5 +1,7 @@
 package com.example.daggerhiltexample.ui.theme.components
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -33,7 +35,7 @@ fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel()) {
 //            PhotoItem(photo)
 //        }
 //    }
-    Text("View model address --> $viewModel")
+
 
 }
 
@@ -44,6 +46,6 @@ fun ImageComponent(imageUrl: String){
             .data(imageUrl).crossfade(true)
             .transformations(CircleCropTransformation()).build(),
         contentDescription = null,
-        modifier = Modifier.padding(15.dp)
+        modifier = Modifier.padding(15.dp).fillMaxWidth()
     )
 }

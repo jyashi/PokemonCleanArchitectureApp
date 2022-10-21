@@ -11,10 +11,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
+import com.example.daggerhiltexample.ui.theme.components.ImageComponent
 import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,10 +33,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(verticalArrangement = Arrangement.Center) {
-                        LazyGridComponent()
-
-                        Text("Main activity model --> $viewModel")
+                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        ImageComponent(imageUrl = viewModel.data.value.sprites["front_default"].toString())
 
 
                         Button(onClick = {
