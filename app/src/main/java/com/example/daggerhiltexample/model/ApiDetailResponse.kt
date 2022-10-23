@@ -10,9 +10,12 @@ data class ApiDetailResponse(
     @Json(name = "types")
     val types: List<Any>,
     @Json(name = "sprites")
-    val sprites: Any, //mutableMap --> LinkedHashTreeMap
+    val sprites: Map<Any,Any>,
 
 )
 
+//data class ApiListResponse (
+//   val result: List<ApiDetailResponse>
+//)
 
 
