@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class GirdPage @Inject constructor(viewModel: HiltViewModel) {
     init {
-        println("Grid page model --> $viewModel")
+//        println("Grid page model --> $viewModel")
     }
 }
 
@@ -31,8 +31,10 @@ fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel()) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
     ) {
-        items(12) { id ->
+        items(viewModel.listData.size) { id ->
             ImageComponent(id = id, viewModel = viewModel)
+
+
 
 
         }
@@ -43,7 +45,7 @@ fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel()) {
 
 @Composable
 fun ImageComponent(id: Int, viewModel: MyViewModel) {
-    val imageUrl = viewModel.listData[id].value.sprites["front_default"]
+    val imageUrl = viewModel.listData[id].sprites["front_default"]
     AsyncImage(
         ImageRequest.Builder(LocalContext.current)
             .data(imageUrl).crossfade(true)

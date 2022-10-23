@@ -48,7 +48,8 @@ class MainActivity : ComponentActivity() {
 
                         Button(onClick = {
                            viewModel.getPokemonList()
-                          println("Click result --> ${ viewModel.listData.size}")
+                            println("Size is --> ${viewModel.listData.size}")
+                          println("Click result --> ${ viewModel.listData.map { it.sprites["front_default"] }}").toString()
 
                         }) {
                             Text("Call api")
