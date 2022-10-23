@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
-import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
+//import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-                        LazyGridComponent()
+//                        LazyGridComponent()
 
                         Text("Main activity model --> $viewModel")
 

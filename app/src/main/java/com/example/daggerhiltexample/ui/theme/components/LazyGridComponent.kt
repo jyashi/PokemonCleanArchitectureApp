@@ -24,8 +24,32 @@ class GirdPage @Inject constructor(viewModel: HiltViewModel) {
 }
 
 
-@Composable
-fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel()) {
+//@Composable
+//fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel(),id: Int) {
+//    LazyVerticalGrid(
+//        columns = GridCells.Adaptive(minSize = 128.dp)
+//    ) {
+//        items(5) { photo ->
+//            PhotoItem(ImageComponent(id))
+//        }
+//    }
+//    Text("View model address --> $viewModel")
+//
+//}
+
+//@Composable
+//fun ImageComponent(id: Int): Int {
+//    AsyncImage(
+//        ImageRequest.Builder(LocalContext.current)
+//            .data(imageUrl).crossfade(true)
+//            .transformations(CircleCropTransformation()).build(),
+//        contentDescription = null,
+//        modifier = Modifier.padding(15.dp)
+//    )
+//}
+
+//@Composable
+//fun PhotoGrid(photos: List<Photo>) {
 //    LazyVerticalGrid(
 //        columns = GridCells.Adaptive(minSize = 128.dp)
 //    ) {
@@ -33,17 +57,15 @@ fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel()) {
 //            PhotoItem(photo)
 //        }
 //    }
-    Text("View model address --> $viewModel")
+//}
 
-}
-
-@Composable
-fun ImageComponent(imageUrl: String){
-    AsyncImage(
-        ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl).crossfade(true)
-            .transformations(CircleCropTransformation()).build(),
-        contentDescription = null,
-        modifier = Modifier.padding(15.dp)
-    )
-}
+/*
+TODO
+1. View model provides data for a single character
+2. Call request needs to be made for each id
+3. View model exposes getpokemon with id parameter.
+4. So need a for loop that takes the ID parameter and then does Call
+5. Result gets saved to List<ApiDetail>
+6. Need to implement loop method inside view model
+7. Add the 
+* */

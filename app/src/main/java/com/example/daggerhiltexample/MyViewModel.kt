@@ -28,9 +28,23 @@ class MyViewModel @Inject constructor(
         )
     var data: MutableState<ApiDetailResponse> = _data
 
+    private val _listData = emptyList<MutableState<ApiDetailResponse>>()
+    var listData: List<MutableState<ApiDetailResponse>> = _listData
+
 
     init {
         getPokemonDetails("1")
+        getPokemonList()
+    }
+
+    private fun getPokemonList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            for(index: Int in 0..12){
+                println("Generating list $index")
+                val listResult = repositoryInterface.netWorkGetRequest(index.toString())
+            }
+
+        }
     }
 
     fun testString() = provideString
@@ -42,7 +56,7 @@ class MyViewModel @Inject constructor(
             println(
                 "From view model response --> $result"
             )
-            
+
             _data.value = repositoryInterface.netWorkGetRequest(id).body()!!
         }
     }
