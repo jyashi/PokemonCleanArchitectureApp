@@ -6,9 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface ApiInterface {
-//    @GET("api/v2/pokemon/{id}/")
-//    suspend fun getResponseList(): Response<ApiListResponse>
-    @GET("api/v2/pokemon/{id}")
+
+    @GET("{id}")
     suspend fun getResponseDetails(
         @Path("id") id: String
     ): Response<ApiDetailResponse>

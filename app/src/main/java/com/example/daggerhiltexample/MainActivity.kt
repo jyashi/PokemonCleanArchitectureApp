@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
-//import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
+import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,14 +32,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column(verticalArrangement = Arrangement.Center) {
-//                        LazyGridComponent()
+                        LazyGridComponent()
 
                         Text("Main activity model --> $viewModel")
 
 
                         Button(onClick = {
-                           val result =  viewModel.getPokemonDetails("1")
-                            println("Result --> $result")
+                          println("Click result --> ${ viewModel.listData.size}")
+
                         }) {
                             Text("Call api")
 

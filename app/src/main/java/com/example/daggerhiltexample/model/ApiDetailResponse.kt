@@ -11,11 +11,6 @@ data class ApiDetailResponse(
     val types: List<Any>,
     @Json(name = "sprites")
     val sprites: Map<Any,Any>,
-
 )
-
-//data class ApiListResponse (
-//   val result: List<ApiDetailResponse>
-//)
 
 

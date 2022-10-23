@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DiModule {
-    private const val base_url: String = "https://pokeapi.co/"
+    private const val base_url: String = "https://pokeapi.co/api/v2/pokemon/"
 
     @Provides
     @Singleton
@@ -48,7 +48,7 @@ object DiModule {
 
     @Provides
     @Singleton
-    fun provideString(): String = "This is test string from DI"
+    fun injectBaseUrl(): String = base_url
 
 
 }

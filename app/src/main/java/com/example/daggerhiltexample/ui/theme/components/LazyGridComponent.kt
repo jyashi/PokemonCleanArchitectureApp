@@ -1,5 +1,6 @@
 package com.example.daggerhiltexample.ui.theme.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,29 +25,34 @@ class GirdPage @Inject constructor(viewModel: HiltViewModel) {
 }
 
 
-//@Composable
-//fun LazyGridComponent (viewModel: MyViewModel = hiltViewModel(),id: Int) {
-//    LazyVerticalGrid(
-//        columns = GridCells.Adaptive(minSize = 128.dp)
-//    ) {
-//        items(5) { photo ->
-//            PhotoItem(ImageComponent(id))
-//        }
-//    }
-//    Text("View model address --> $viewModel")
-//
-//}
+@Composable
+fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel()) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
+    ) {
+        items(20) { id ->
+            if (id != 0){
+//                ImageComponent(id = id, viewModel = viewModel)
+            }
+            println("Lazy id --> $id")
 
-//@Composable
-//fun ImageComponent(id: Int): Int {
-//    AsyncImage(
-//        ImageRequest.Builder(LocalContext.current)
-//            .data(imageUrl).crossfade(true)
-//            .transformations(CircleCropTransformation()).build(),
-//        contentDescription = null,
-//        modifier = Modifier.padding(15.dp)
-//    )
-//}
+        }
+    }
+    Text("View model address --> $viewModel")
+
+}
+
+@Composable
+fun ImageComponent(id: Int, viewModel: MyViewModel) {
+    val imageUrl = viewModel.listData[id].value.sprites["front_default"]
+    AsyncImage(
+        ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl).crossfade(true)
+            .transformations(CircleCropTransformation()).build(),
+        contentDescription = null,
+        modifier = Modifier.padding(15.dp)
+    )
+}
 
 //@Composable
 //fun PhotoGrid(photos: List<Photo>) {

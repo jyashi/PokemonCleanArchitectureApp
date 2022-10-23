@@ -1,7 +1,7 @@
 package com.example.daggerhiltexample
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,17 +10,23 @@ import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+fun log(string: String){
+    Log.d("MyViewModel",string)
+}
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface,
-    private val provideString: String
+    private val baseUrl: String
 ) : ViewModel() {
+    var isLoading: MutableState<Boolean> = mutableStateOf(false)
     private val _data =
         mutableStateOf(
             ApiDetailResponse(
-                id = 0,
+                id = 1,
                 name = "name",
                 types = emptyList(),
                 sprites = mutableMapOf()
@@ -28,37 +34,41 @@ class MyViewModel @Inject constructor(
         )
     var data: MutableState<ApiDetailResponse> = _data
 
-    private val _listData = emptyList<MutableState<ApiDetailResponse>>()
-    var listData: List<MutableState<ApiDetailResponse>> = _listData
+    private var _listData = mutableListOf< MutableState<ApiDetailResponse>>()
+    var listData: MutableList<MutableState<ApiDetailResponse>> = _listData
 
 
     init {
-        getPokemonDetails("1")
-        getPokemonList()
+        viewModelScope.launch { getPokemonList() }
     }
 
-    private fun getPokemonList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            for(index: Int in 0..12){
-                println("Generating list $index")
-                val listResult = repositoryInterface.netWorkGetRequest(index.toString())
-            }
+   private suspend fun getPokemonList() {
+       log("Entered list fn")
+        for(index: Int in 1..12){
 
+            getPokemonDetails(index.toString())
+            _listData.add(_data)
         }
+log("Exiting")
     }
 
-    fun testString() = provideString
 
-    fun getPokemonDetails(id: String) {
 
+     suspend fun getPokemonDetails(id: String) {
+    isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            _data.value = repositoryInterface.netWorkGetRequest(id).body()!!
-            println(
-                "From view model response --> ${data.value.sprites}"
-            )
 
             _data.value = repositoryInterface.netWorkGetRequest(id).body()!!
+            log("_Data ---> ${_data.value}")
+
+
         }
+
+
+
     }
+
 
 }
+
+
