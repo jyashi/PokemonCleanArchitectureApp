@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,15 +31,13 @@ fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel()) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
     ) {
-        items(20) { id ->
-            if (id != 0){
-//                ImageComponent(id = id, viewModel = viewModel)
-            }
-            println("Lazy id --> $id")
+        items(12) { id ->
+            ImageComponent(id = id, viewModel = viewModel)
+
 
         }
     }
-    Text("View model address --> $viewModel")
+
 
 }
 
@@ -52,6 +51,13 @@ fun ImageComponent(id: Int, viewModel: MyViewModel) {
         contentDescription = null,
         modifier = Modifier.padding(15.dp)
     )
+}
+
+@Composable
+fun LoadingBar(showing: Boolean, modifier: Modifier) {
+    if (showing) {
+        CircularProgressIndicator(modifier = modifier)
+    }
 }
 
 //@Composable

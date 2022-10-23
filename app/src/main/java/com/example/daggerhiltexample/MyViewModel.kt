@@ -9,6 +9,7 @@ import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -39,27 +40,33 @@ class MyViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch { getPokemonList() }
+      getPokemonList()
     }
 
-   private suspend fun getPokemonList() {
+     fun getPokemonList() {
+
+         isLoading.value = true
        log("Entered list fn")
         for(index: Int in 1..12){
 
             getPokemonDetails(index.toString())
             _listData.add(_data)
         }
-log("Exiting")
+if(listData.size > 10) {
+    log("Size ${listData.size}")
+    isLoading.value = false
+}
     }
 
 
 
-     suspend fun getPokemonDetails(id: String) {
-    isLoading.value = true
+      fun getPokemonDetails(id: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
 
             _data.value = repositoryInterface.netWorkGetRequest(id).body()!!
             log("_Data ---> ${_data.value}")
+
 
 
         }

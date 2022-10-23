@@ -11,12 +11,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
+import com.example.daggerhiltexample.ui.theme.components.LoadingBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,18 +31,23 @@ class MainActivity : ComponentActivity() {
             DaggerHiltExampleTheme {
                 // A surface container using the 'background' color from the theme
                 val viewModel  = hiltViewModel<MyViewModel>()
-                println("Hilt model --> $viewModel")
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(verticalArrangement = Arrangement.Center) {
-                        LazyGridComponent()
+                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        if(viewModel.isLoading.value){
+                            LoadingBar(showing = true, modifier = Modifier )
+                        }
+                        else{
+                            LazyGridComponent()
+                        }
 
-                        Text("Main activity model --> $viewModel")
 
 
                         Button(onClick = {
+                           viewModel.getPokemonList()
                           println("Click result --> ${ viewModel.listData.size}")
 
                         }) {
