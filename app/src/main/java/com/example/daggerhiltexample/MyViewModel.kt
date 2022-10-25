@@ -1,17 +1,17 @@
 package com.example.daggerhiltexample
 
 import android.util.Log
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 fun log(string: String) {
@@ -40,7 +40,6 @@ class MyViewModel @Inject constructor(
 
     init {
         getPokemonList()
-
     }
 
 
@@ -54,9 +53,8 @@ class MyViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 for (index: Int in 1..12) {
                     println("log : Calling api with index $index")
-                    _data.value = async {
-                        repositoryInterface.netWorkGetRequest(index.toString()).body()!!
-                    }.await()
+                    _data.value = async {repositoryInterface.netWorkGetRequest(index.toString()).body()!!}.await()
+//
 
                     println("log : Deffered result received")
                     _listData.add(_data.value)
@@ -76,10 +74,13 @@ class MyViewModel @Inject constructor(
     }
 
 
-    fun getPokemonDetails(id: String) {
+     fun getPokemonDetails(id: String) {
 
         viewModelScope.launch(Dispatchers.IO)  {
-            _data.value = async { repositoryInterface.netWorkGetRequest(id).body()!! }.await()
+            _data.value = withContext(Dispatchers.Default) {
+                repositoryInterface.netWorkGetRequest(id).body()!!
+            }
+
             _listData.add(_data.value)
             isLoading.value = false
 

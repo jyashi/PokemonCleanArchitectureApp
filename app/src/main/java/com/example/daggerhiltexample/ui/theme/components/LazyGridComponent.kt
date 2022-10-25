@@ -1,13 +1,18 @@
 package com.example.daggerhiltexample.ui.theme.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,7 +34,7 @@ class GirdPage @Inject constructor(viewModel: HiltViewModel) {
 @Composable
 fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel()) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
+        columns = GridCells.Adaptive(minSize = 100.dp), modifier = Modifier.fillMaxWidth()
     ) {
         items(viewModel.listData.size) { id ->
             ImageComponent(id = id, viewModel = viewModel)
@@ -51,7 +56,12 @@ fun ImageComponent(id: Int, viewModel: MyViewModel) {
             .data(imageUrl).crossfade(true)
             .transformations(CircleCropTransformation()).build(),
         contentDescription = null,
-        modifier = Modifier.padding(15.dp)
+        contentScale = ContentScale.Fit,
+        modifier = Modifier.padding(15.dp).size(100.dp).fillMaxSize().border(
+            BorderStroke(1.dp, Color.Gray),
+            CircleShape
+        ).clip(CircleShape)
+
     )
 }
 
