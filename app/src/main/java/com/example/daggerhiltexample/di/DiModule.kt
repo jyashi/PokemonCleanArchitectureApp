@@ -1,6 +1,9 @@
 package com.example.daggerhiltexample.di
 
 import android.app.Application
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.daggerhiltexample.MyViewModel
 import com.example.daggerhiltexample.repository.RepositoryImpl
 import com.example.daggerhiltexample.repository.RepositoryInterface
@@ -37,7 +40,6 @@ object DiModule {
     fun injectRepository(apiInterface: ApiInterface, appContext: Application): RepositoryInterface {
         return RepositoryImpl(injectApi(), appContext)
     }
-
 
 
     @Provides

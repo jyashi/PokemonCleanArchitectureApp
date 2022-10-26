@@ -16,13 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import com.example.daggerhiltexample.ui.theme.components.LoadingBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
+import androidx.navigation.compose.rememberNavController
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,26 +38,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                        if(viewModel.isLoading.value){
-                            LoadingBar(showing = true, modifier = Modifier )
-                        }
-                        else{
-                            LazyGridComponent()
-                        }
+
+                        NavGraph()
+//                        if(viewModel.isLoading.value){
+//                            LoadingBar(showing = true, modifier = Modifier )
+//                        }
+//                        else{
+//                            LazyGridComponent()
+//                        }
 
 
 
-                        Button(onClick = {
-                           viewModel.getPokemonList()
-                            println("Size is --> ${viewModel.listData.size}")
-                          println("Click result --> ${ viewModel.listData.map { it.sprites["front_default"] }}").toString()
+//                        Button(onClick = {
+//
+//
+//                        }) {
+//                            Text("Call api")
+//
+//                        }
 
-                        }) {
-                            Text("Call api")
-
-                        }
-                    }
                 }
             }
         }
