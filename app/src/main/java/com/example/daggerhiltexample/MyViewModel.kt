@@ -44,30 +44,31 @@ class MyViewModel @Inject constructor(
     }
 
 
-
     fun getPokemonList() {
         isLoading.value = true
 
 
 
 
-            viewModelScope.launch(Dispatchers.IO) {
-                for (index: Int in 1..12) {
-                    println("log : Calling api with index $index")
-                    _data.value = async {repositoryInterface.netWorkGetRequest(index.toString()).body()!!}.await()
+        viewModelScope.launch(Dispatchers.IO) {
+            for (index: Int in 1..12) {
+                println("log : Calling api with index $index")
+                _data.value = async {
+                    repositoryInterface.netWorkGetRequest(index.toString()).body()!!
+                }.await()
 //
 
-                    println("log : Deffered result received")
-                    _listData.add(_data.value)
-                    println("log : Adding result to list --> ${_listData}")
-                    println("log : After adding size is --> ${_listData.size}")
+                println("log : Deffered result received")
+                _listData.add(_data.value)
+                println("log : Adding result to list --> ${_listData}")
+                println("log : After adding size is --> ${_listData.size}")
 
 
-                    println("log : ending deffered")
-                }
-                isLoading.value = false
-
+                println("log : ending deffered")
             }
+            isLoading.value = false
+
+        }
 //        if (listData.size > 10) {
 //            log("Size ${listData.size}")
 //
@@ -75,9 +76,9 @@ class MyViewModel @Inject constructor(
     }
 
 
-     fun getPokemonDetails(id: String) {
+    fun getPokemonDetails(id: String) {
 
-        viewModelScope.launch(Dispatchers.IO)  {
+        viewModelScope.launch(Dispatchers.IO) {
             _data.value = withContext(Dispatchers.Default) {
                 repositoryInterface.netWorkGetRequest(id).body()!!
             }

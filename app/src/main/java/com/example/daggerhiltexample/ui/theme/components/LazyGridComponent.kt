@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -28,15 +29,19 @@ import com.example.daggerhiltexample.navigation.NavModel
 
 @Composable
 fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavController){
-//    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-        if(viewModel.isLoading.value){
-            LoadingBar(showing = true, modifier = Modifier )
-        }
-        else {
-            LazyGridComponent(navController = navController)
-        }
 
-//    }
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+            if(viewModel.isLoading.value){
+                LoadingBar(showing = true, modifier = Modifier )
+            }
+            else {
+                LazyGridComponent(navController = navController)
+            }
+
+        }
+    }
+
 }
 
 @Composable
