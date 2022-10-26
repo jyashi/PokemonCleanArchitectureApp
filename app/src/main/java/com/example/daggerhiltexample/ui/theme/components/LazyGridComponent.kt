@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -20,18 +19,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.daggerhiltexample.MyViewModel
-import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.navigation.NavModel
 
 
 @Composable
 fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavController){
-    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+//    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
         if(viewModel.isLoading.value){
             LoadingBar(showing = true, modifier = Modifier )
         }
@@ -39,7 +36,7 @@ fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavContr
             LazyGridComponent(navController = navController)
         }
 
-    }
+//    }
 }
 
 @Composable

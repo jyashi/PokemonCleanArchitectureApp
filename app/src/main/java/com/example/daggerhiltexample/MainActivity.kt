@@ -38,8 +38,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
                         NavGraph()
+
+                    }
+
+
 //                        if(viewModel.isLoading.value){
 //                            LoadingBar(showing = true, modifier = Modifier )
 //                        }

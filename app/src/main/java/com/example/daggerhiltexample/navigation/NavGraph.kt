@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.daggerhiltexample.ui.theme.components.DetailPage
 import com.example.daggerhiltexample.ui.theme.components.LazyGridComponent
 import com.example.daggerhiltexample.ui.theme.components.MainScreen
+import java.lang.reflect.Modifier
 
 
 @Composable
