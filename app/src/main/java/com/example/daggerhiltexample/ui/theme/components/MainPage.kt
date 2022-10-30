@@ -5,11 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,6 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -33,7 +31,7 @@ fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavContr
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
             if(viewModel.isLoading.value){
-                LoadingBar(showing = true, modifier = Modifier )
+                LoadingBar(showing = true,text = "Fetching data...", modifier = Modifier )
             }
             else {
                 LazyGridComponent(navController = navController)
@@ -62,6 +60,7 @@ fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel(),navController: 
 @Composable
 fun ImageComponent(id: Int, viewModel: MyViewModel, navController: NavController) {
     val imageUrl = viewModel.listData[id].sprites["front_default"]
+    val showDialog = remember {mutableStateOf(false)}
     Box(modifier = Modifier
         .size(100.dp)
         .fillMaxSize()){
@@ -82,40 +81,51 @@ fun ImageComponent(id: Int, viewModel: MyViewModel, navController: NavController
         )
         TextButton(modifier = Modifier
             .size(100.dp)
-            .fillMaxSize() ,onClick = { navController.navigate(route = NavModel.DetailPage.route)  }) {
+            .fillMaxSize() ,onClick = { showDialog.value = true  }) {
             Text("")
 
         }
+        MyAlertDialog(showDialog = showDialog,navController)
 
     }
 
 }
 
 @Composable
-fun LoadingBar(showing: Boolean, modifier: Modifier) {
-    if (showing) {
-        CircularProgressIndicator(modifier = modifier)
-    }
+fun MyAlertDialog(showDialog: MutableState<Boolean>, navController: NavController){
+
+   if(showDialog.value){
+       AlertDialog(
+           onDismissRequest = { showDialog.value = false },
+           title = { Text("Test your Pokemon knowledge") },
+           text = {
+               Column {
+                   Text("Name of Pokemon?")
+                   MyTextField()
+
+               }
+           },
+          
+               
+           
+           buttons = {
+               TextButton(content = { Text(text = "Submit")} ,onClick = {showDialog.value = false})
+               TextButton(onClick = {navController.navigate(route = NavModel.DetailPage.route)}) {
+                   Text(text = "View Pokemon Card")
+               }      
+                     },
+       )
+   }
+
 }
 
-//@Composable
-//fun PhotoGrid(photos: List<Photo>) {
-//    LazyVerticalGrid(
-//        columns = GridCells.Adaptive(minSize = 128.dp)
-//    ) {
-//        items(photos) { photo ->
-//            PhotoItem(photo)
-//        }
-//    }
-//}
+@Composable
+fun MyTextField(){
+    var text by remember { mutableStateOf("") }
 
-/*
-TODO
-1. View model provides data for a single character
-2. Call request needs to be made for each id
-3. View model exposes getpokemon with id parameter.
-4. So need a for loop that takes the ID parameter and then does Call
-5. Result gets saved to List<ApiDetail>
-6. Need to implement loop method inside view model
-7. Add the 
-* */
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        label = { Text("Enter Name") }
+    )
+}

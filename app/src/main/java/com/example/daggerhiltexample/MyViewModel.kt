@@ -51,7 +51,7 @@ class MyViewModel @Inject constructor(
 
 
         viewModelScope.launch(Dispatchers.IO) {
-            for (index: Int in 1..12) {
+            for (index: Int in 1..51) {
                 println("log : Calling api with index $index")
                 _data.value = async {
                     repositoryInterface.netWorkGetRequest(index.toString()).body()!!
