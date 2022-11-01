@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 fun log(string: String) {
     Log.d("MyViewModel", string)
@@ -24,6 +25,8 @@ class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface,
     private val baseUrl: String
 ) : ViewModel() {
+    var id: Int = 0
+    var nameAnswer:String = "No input"
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     private val _data =
         mutableStateOf(
@@ -43,13 +46,15 @@ class MyViewModel @Inject constructor(
         getPokemonList()
     }
 
+    fun updateId(newId:Int){
+        id = newId
+    }
+    fun updateName(newName:String){
+        nameAnswer = newName
+    }
 
-    fun getPokemonList() {
+    private fun getPokemonList() {
         isLoading.value = true
-
-
-
-
         viewModelScope.launch(Dispatchers.IO) {
             for (index: Int in 1..51) {
                 println("log : Calling api with index $index")
@@ -69,10 +74,6 @@ class MyViewModel @Inject constructor(
             isLoading.value = false
 
         }
-//        if (listData.size > 10) {
-//            log("Size ${listData.size}")
-//
-//        }
     }
 
 

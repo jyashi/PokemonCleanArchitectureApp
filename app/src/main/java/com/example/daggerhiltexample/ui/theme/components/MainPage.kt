@@ -18,23 +18,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.daggerhiltexample.MyViewModel
 import com.example.daggerhiltexample.navigation.NavModel
 
+private val _tag = "Main Page"
 
 @Composable
-fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavController){
-
+fun MainScreen(viewModel: MyViewModel, navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-            if(viewModel.isLoading.value){
-                LoadingBar(showing = true,text = "Fetching data...", modifier = Modifier )
-            }
-            else {
-                LazyGridComponent(navController = navController)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (viewModel.isLoading.value) {
+                LoadingBar(showing = true, text = "Fetching data...", modifier = Modifier)
+            } else {
+                LazyGridComponent(navController = navController, viewModel = viewModel)
             }
 
         }
@@ -43,27 +46,32 @@ fun MainScreen(viewModel: MyViewModel = hiltViewModel(), navController: NavContr
 }
 
 @Composable
-fun LazyGridComponent ( viewModel: MyViewModel = hiltViewModel(),navController: NavController) {
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
-        ) {
-            items(viewModel.listData.size) { id ->
-                ImageComponent(id = id, viewModel = viewModel, navController)
-            }
+fun LazyGridComponent(viewModel: MyViewModel, navController: NavController) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 120.dp), modifier = Modifier.fillMaxWidth()
+    ) {
+        items(viewModel.listData.size) { id ->
+            ImageComponent(
+                id = id, viewModel = viewModel, navController, modifier = Modifier
+                    .size(100.dp)
+                    .fillMaxSize()
+            )
         }
-
-
+    }
 
 
 }
 
 @Composable
-fun ImageComponent(id: Int, viewModel: MyViewModel, navController: NavController) {
+fun ImageComponent(
+    id: Int,
+    viewModel: MyViewModel,
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     val imageUrl = viewModel.listData[id].sprites["front_default"]
-    val showDialog = remember {mutableStateOf(false)}
-    Box(modifier = Modifier
-        .size(100.dp)
-        .fillMaxSize()){
+    val showDialog = remember { mutableStateOf(false) }
+    Box(modifier = modifier) {
         AsyncImage(
             ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl).crossfade(true)
@@ -81,51 +89,92 @@ fun ImageComponent(id: Int, viewModel: MyViewModel, navController: NavController
         )
         TextButton(modifier = Modifier
             .size(100.dp)
-            .fillMaxSize() ,onClick = { showDialog.value = true  }) {
+            .fillMaxSize(), onClick = { showDialog.value = true }) {
             Text("")
 
         }
-        MyAlertDialog(showDialog = showDialog,navController)
+        MyAlertDialog(
+            showDialog = showDialog,
+            navController = navController,
+            imageUrl = imageUrl,
+            viewModel = viewModel,
+            id = id
+        )
 
     }
 
 }
 
 @Composable
-fun MyAlertDialog(showDialog: MutableState<Boolean>, navController: NavController){
-
-   if(showDialog.value){
-       AlertDialog(
-           onDismissRequest = { showDialog.value = false },
-           title = { Text("Test your Pokemon knowledge") },
-           text = {
-               Column {
-                   Text("Name of Pokemon?")
-                   MyTextField()
-
-               }
-           },
-          
-               
-           
-           buttons = {
-               TextButton(content = { Text(text = "Submit")} ,onClick = {showDialog.value = false})
-               TextButton(onClick = {navController.navigate(route = NavModel.DetailPage.route)}) {
-                   Text(text = "View Pokemon Card")
-               }      
-                     },
-       )
-   }
-
-}
-
-@Composable
-fun MyTextField(){
+fun MyAlertDialog(
+    showDialog: MutableState<Boolean>,
+    navController: NavController,
+    imageUrl: Any?,
+    viewModel: MyViewModel,
+    id: Int
+) {
     var text by remember { mutableStateOf("") }
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Test your Pokemon knowledge")
+                    val img = AsyncImage(
+                        ImageRequest.Builder(LocalContext.current)
+                            .data(imageUrl).crossfade(true)
+                            .transformations(CircleCropTransformation()).build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .fillMaxSize()
+                            .clip(RectangleShape)
 
-    OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
-        label = { Text("Enter Name") }
-    )
+                    )
+                }
+            },
+            text = {
+                Column {
+                    Text("Name of Pokemon?")
+                    OutlinedTextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        singleLine = true,
+                        label = { Text("Enter Name") }
+                    )
+
+                }
+            },
+
+
+            buttons = {
+
+                TextButton(onClick = {
+                    viewModel.updateId(newId = id)
+                    viewModel.updateName(text)
+                    showDialog.value = false
+                    navController.navigate(
+                        route = NavModel.DetailPage.route,
+
+                    )
+
+                }) {
+                    Text(text = "Submit")
+                }
+            },
+        )
+    }
+
 }
+
+//@Composable
+//fun MyTextField() {
+//
+//
+//    OutlinedTextField(
+//        value = text,
+//        onValueChange = { text = it },
+//        label = { Text("Enter Name") }
+//    )
+//}
