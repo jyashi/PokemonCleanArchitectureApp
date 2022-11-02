@@ -2,6 +2,7 @@ package com.example.daggerhiltexample
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,9 +24,11 @@ class MyViewModel @Inject constructor(
     private val baseUrl: String
 ) : ViewModel() {
     var id: Int = 0
+    val maxItems = 100
     var nameAnswer: String = "No input"
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
+    var dataFetchCounter: State<Int> = _dataFetchCounter
     private val _data =
         mutableStateOf(
             ApiDetailResponse(
@@ -55,7 +58,7 @@ class MyViewModel @Inject constructor(
     private fun getPokemonList() {
         isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            for (index: Int in 1..51) {
+            for (index: Int in 1..maxItems) {
                 println("log : Calling api with index $index")
                 _data.value =
                     withContext(Dispatchers.Default) {
