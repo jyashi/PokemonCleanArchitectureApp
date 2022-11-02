@@ -1,7 +1,6 @@
 package com.example.daggerhiltexample
 
 import android.util.Log
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,11 +9,9 @@ import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
 fun log(string: String) {
     Log.d("MyViewModel", string)
@@ -26,8 +23,9 @@ class MyViewModel @Inject constructor(
     private val baseUrl: String
 ) : ViewModel() {
     var id: Int = 0
-    var nameAnswer:String = "No input"
+    var nameAnswer: String = "No input"
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
+    var _dataFetchCounter = mutableStateOf(1)
     private val _data =
         mutableStateOf(
             ApiDetailResponse(
@@ -46,10 +44,11 @@ class MyViewModel @Inject constructor(
         getPokemonList()
     }
 
-    fun updateId(newId:Int){
+    fun updateId(newId: Int) {
         id = newId
     }
-    fun updateName(newName:String){
+
+    fun updateName(newName: String) {
         nameAnswer = newName
     }
 
@@ -58,17 +57,17 @@ class MyViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             for (index: Int in 1..51) {
                 println("log : Calling api with index $index")
-                _data.value = async {
-                    repositoryInterface.netWorkGetRequest(index.toString()).body()!!
-                }.await()
-//
+                _data.value =
+                    withContext(Dispatchers.Default) {
+                        repositoryInterface.netWorkGetRequest(index.toString()).body()!!
+                    }
 
-                println("log : Deffered result received")
                 _listData.add(_data.value)
+                _dataFetchCounter.value = index
+                println("log : _dataFetchCounter updated $_dataFetchCounter")
+
                 println("log : Adding result to list --> ${_listData}")
                 println("log : After adding size is --> ${_listData.size}")
-
-
                 println("log : ending deffered")
             }
             isLoading.value = false

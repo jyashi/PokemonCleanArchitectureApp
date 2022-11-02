@@ -30,7 +30,7 @@ fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAn
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(

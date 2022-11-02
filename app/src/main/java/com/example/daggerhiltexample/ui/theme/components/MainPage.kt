@@ -29,13 +29,16 @@ private val _tag = "Main Page"
 
 @Composable
 fun MainScreen(viewModel: MyViewModel, navController: NavController) {
+    val index by remember {mutableStateOf(viewModel._dataFetchCounter.value)}
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             if (viewModel.isLoading.value) {
-                LoadingBar(showing = true, text = "Fetching data...", modifier = Modifier)
+
+                LoadingBar(showing = true, text = "Fetching data...\n${index} / 52", modifier = Modifier)
             } else {
                 LazyGridComponent(navController = navController, viewModel = viewModel)
             }
