@@ -24,9 +24,7 @@ fun log(string: String) {
 class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface
 ) : ViewModel() {
-    var id: Int = 0
     val maxItems = 21
-    var nameAnswer: String = "No input"
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
     var dataFetchCounter: State<Int> = _dataFetchCounter
@@ -48,13 +46,6 @@ class MyViewModel @Inject constructor(
         getPokemonList()
     }
 
-    fun updateId(newId: Int) {
-        id = newId
-    }
-
-    fun updateName(newName: String) {
-        nameAnswer = newName
-    }
 
     private fun getPokemonList() {
         isLoading.value = true
@@ -80,20 +71,7 @@ class MyViewModel @Inject constructor(
     }
 
 
-    fun getPokemonDetails(id: String) {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            _data.value = withContext(Dispatchers.Default) {
-                repositoryInterface.netWorkGetRequest(id).body()!!
-            }
-
-            _listData.add(_data.value)
-            isLoading.value = false
-
-        }
-
-
-    }
 
 
 }

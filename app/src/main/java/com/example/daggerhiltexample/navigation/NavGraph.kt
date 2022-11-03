@@ -19,10 +19,10 @@ fun NavGraph(viewModel: MyViewModel) {
     println("log1 : $_tag $viewModel")
 
     NavHost(navController = navController, startDestination = NavModel.MainPage.route) {
-        composable(route = NavModel.MainPage.route) {
+        composable(route = NavModel.MainPage.route ) {
             MainScreen(navController = navController, viewModel = viewModel)
         }
-        composable(route = NavModel.DetailPage.route,
+        composable(route = NavModel.DetailPage.route + "/{id}/{nameAnswer}",
             arguments = listOf(
                 navArgument("id") {
                     type = NavType.IntType

@@ -5,20 +5,20 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
@@ -106,6 +106,7 @@ fun ImageComponent(
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MyAlertDialog(
     showDialog: MutableState<Boolean>,
@@ -114,7 +115,8 @@ fun MyAlertDialog(
     viewModel: MyViewModel,
     id: Int
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(" ") }
+    val keyboard = LocalSoftwareKeyboardController.current
     if (showDialog.value) {
         AlertDialog(
             onDismissRequest = { showDialog.value = false },
@@ -142,21 +144,21 @@ fun MyAlertDialog(
                         value = text,
                         onValueChange = { text = it },
                         singleLine = true,
+                        maxLines = 1,
+                        keyboardActions = KeyboardActions(onDone = {
+                            keyboard?.hide()
+                        }),
                         label = { Text("Enter Name") }
                     )
 
                 }
             },
-
-
             buttons = {
 
                 TextButton(onClick = {
-                    viewModel.updateId(newId = id)
-                    viewModel.updateName(text)
                     showDialog.value = false
                     navController.navigate(
-                        route = NavModel.DetailPage.route,
+                        route = NavModel.DetailPage.PageArgs(id.toString(),text),
 
                     )
 
