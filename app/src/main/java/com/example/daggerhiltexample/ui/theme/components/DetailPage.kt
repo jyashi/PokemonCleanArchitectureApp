@@ -1,5 +1,6 @@
 package com.example.daggerhiltexample.ui.theme.components
 
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,29 +16,39 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.daggerhiltexample.MyViewModel
-import javax.inject.Inject
+import com.example.daggerhiltexample.repository.RepositoryInterface
 
 private val _tag = "Detail Page"
 
-class DetailPage @Inject constructor(private val viewModel: MyViewModel){
-
-}
+//@InstallIn(SingletonComponent::class)
+//@Module
+//@AndroidEntryPoint
+//class Detailpage @Inject constructor(){
+//
+//    init {
+//        println("Log : $_tag View Model --> ")
+//    }
+//
+//}
 
 
 @Composable
 fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAnswer:String) {
+
+
     var id = viewModel.id
     var name = viewModel.nameAnswer
     val imageUrl = viewModel.listData[viewModel.id].sprites["front_default"]
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(

@@ -3,6 +3,7 @@ package com.example.daggerhiltexample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -10,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import dagger.hilt.android.AndroidEntryPoint
+
 private val _tag = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

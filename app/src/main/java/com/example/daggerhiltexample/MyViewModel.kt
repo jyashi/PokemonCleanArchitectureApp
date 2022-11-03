@@ -18,10 +18,11 @@ fun log(string: String) {
     Log.d("MyViewModel", string)
 }
 
+//@InstallIn(SingletonComponent::class)
 @HiltViewModel
+
 class MyViewModel @Inject constructor(
-    private val repositoryInterface: RepositoryInterface,
-    private val baseUrl: String
+    private val repositoryInterface: RepositoryInterface
 ) : ViewModel() {
     var id: Int = 0
     val maxItems = 21

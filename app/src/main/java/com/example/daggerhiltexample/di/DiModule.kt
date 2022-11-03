@@ -42,11 +42,11 @@ object DiModule {
     }
 
 
-    @Provides
-    @Singleton
-    fun injectViewModel(): HiltViewModel{
-        return HiltViewModel()
-    }
+//    @Provides
+//    @Singleton
+//    fun injectViewModel(): HiltViewModel{
+//        return HiltViewModel()
+//    }
 
     @Provides
     @Singleton
