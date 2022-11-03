@@ -20,8 +20,15 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.daggerhiltexample.MyViewModel
+import javax.inject.Inject
 
 private val _tag = "Detail Page"
+
+class DetailPage @Inject constructor(private val viewModel: MyViewModel){
+
+}
+
+
 @Composable
 fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAnswer:String) {
     var id = viewModel.id
@@ -51,4 +58,9 @@ fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAn
         }
 
     }
+}
+
+@Composable
+fun ProfileCard(){
+
 }

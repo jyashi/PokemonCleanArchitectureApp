@@ -24,7 +24,7 @@ class MyViewModel @Inject constructor(
     private val baseUrl: String
 ) : ViewModel() {
     var id: Int = 0
-    val maxItems = 100
+    val maxItems = 21
     var nameAnswer: String = "No input"
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
