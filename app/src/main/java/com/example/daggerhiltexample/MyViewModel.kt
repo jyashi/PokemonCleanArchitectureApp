@@ -18,13 +18,12 @@ fun log(string: String) {
     Log.d("MyViewModel", string)
 }
 
-//@InstallIn(SingletonComponent::class)
-@HiltViewModel
 
+@HiltViewModel
 class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface
 ) : ViewModel() {
-    val maxItems = 21
+    val maxItems = 51
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
     var dataFetchCounter: State<Int> = _dataFetchCounter
@@ -43,7 +42,11 @@ class MyViewModel @Inject constructor(
 
 
     init {
-        getPokemonList()
+        try {
+            getPokemonList()
+        }catch (e:Exception){
+            println("Log : Connection Exception")
+        }
     }
 
 
@@ -54,7 +57,15 @@ class MyViewModel @Inject constructor(
                 println("log : Calling api with index $index")
                 _data.value =
                     withContext(Dispatchers.Default) {
-                        repositoryInterface.netWorkGetRequest(index.toString()).body()!!
+                        try {
+                            repositoryInterface.netWorkGetRequest(index.toString()).body()!!
+                        }
+                        catch (e: Exception){
+                            //TODO Display default data if request failed
+                            println("Log : Connection Exception --> $e")
+                            ApiDetailResponse(id = 0,name=e.toString(), types = emptyList(), sprites = mapOf())
+                        }
+
                     }
 
                 _listData.add(_data.value)

@@ -1,50 +1,70 @@
 package com.example.daggerhiltexample.ui.theme.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.example.daggerhiltexample.AppNavType
 import com.example.daggerhiltexample.MyViewModel
 import com.example.daggerhiltexample.navigation.NavModel
+import com.example.daggerhiltexample.ui.theme.graySurface
 
 private val _tag = "Main Page"
 
 @Composable
-fun MainScreen(viewModel: MyViewModel, navController: NavController) {
+fun MainScreen(
+    viewModel: MyViewModel,
+    navController: NavController,
+    appNavItemState: MutableState<AppNavType>,
+    modifier: Modifier
+) {
     val index by remember { mutableStateOf(viewModel.dataFetchCounter) }
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
-            if (viewModel.isLoading.value){
-                LoadingBar(showing = true, text = "Fetching data...\n${index.value} / ${viewModel.maxItems}", modifier = Modifier)
-            } else {
-                LazyGridComponent(navController = navController, viewModel = viewModel)
-            }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        if (viewModel.isLoading.value) {
+            LoadingBar(
+                showing = true,
+                text = "Fetching data...\n${index.value} / ${viewModel.maxItems}",
+                modifier = Modifier
+            )
+        } else {
+            LazyGridComponent(navController = navController, viewModel = viewModel)
         }
     }
 
+
 }
+
 
 @Composable
 fun LazyGridComponent(viewModel: MyViewModel, navController: NavController) {
@@ -53,7 +73,10 @@ fun LazyGridComponent(viewModel: MyViewModel, navController: NavController) {
     ) {
         items(viewModel.listData.size) { id ->
             ImageComponent(
-                id = id, viewModel = viewModel, navController, modifier = Modifier
+                id = id,
+                viewModel = viewModel,
+                navController,
+                modifier = Modifier
                     .size(100.dp)
                     .fillMaxSize()
             )
@@ -65,17 +88,14 @@ fun LazyGridComponent(viewModel: MyViewModel, navController: NavController) {
 
 @Composable
 fun ImageComponent(
-    id: Int,
-    viewModel: MyViewModel,
-    navController: NavController,
-    modifier: Modifier = Modifier
+    id: Int, viewModel: MyViewModel, navController: NavController, modifier: Modifier = Modifier
 ) {
     val imageUrl = viewModel.listData[id].sprites["front_default"]
     val showDialog = remember { mutableStateOf(false) }
+
     Box(modifier = modifier) {
         AsyncImage(
-            ImageRequest.Builder(LocalContext.current)
-                .data(imageUrl).crossfade(true)
+            ImageRequest.Builder(LocalContext.current).data(imageUrl).crossfade(true)
                 .transformations(CircleCropTransformation()).build(),
             contentDescription = null,
             contentScale = ContentScale.Fit,
@@ -88,9 +108,11 @@ fun ImageComponent(
                 .clip(RectangleShape)
 
         )
-        TextButton(modifier = Modifier
-            .size(100.dp)
-            .fillMaxSize(), onClick = { showDialog.value = true }) {
+        TextButton(
+            modifier = Modifier
+                .size(100.dp)
+                .fillMaxSize(),
+            onClick = { showDialog.value = true }) {
             Text("")
 
         }
@@ -106,7 +128,7 @@ fun ImageComponent(
 
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+
 @Composable
 fun MyAlertDialog(
     showDialog: MutableState<Boolean>,
@@ -116,7 +138,7 @@ fun MyAlertDialog(
     id: Int
 ) {
     var text by remember { mutableStateOf(" ") }
-    val keyboard = LocalSoftwareKeyboardController.current
+
     if (showDialog.value) {
         AlertDialog(
             onDismissRequest = { showDialog.value = false },
@@ -124,8 +146,7 @@ fun MyAlertDialog(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("Test your Pokemon knowledge")
                     val img = AsyncImage(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrl).crossfade(true)
+                        ImageRequest.Builder(LocalContext.current).data(imageUrl).crossfade(true)
                             .transformations(CircleCropTransformation()).build(),
                         contentDescription = null,
                         contentScale = ContentScale.Fit,
@@ -138,18 +159,18 @@ fun MyAlertDialog(
                 }
             },
             text = {
+                val focusManager = LocalFocusManager.current
                 Column {
                     Text("Name of Pokemon?")
-                    OutlinedTextField(
-                        value = text,
+                    OutlinedTextField(value = text,
                         onValueChange = { text = it },
                         singleLine = true,
                         maxLines = 1,
                         keyboardActions = KeyboardActions(onDone = {
-                            keyboard?.hide()
+                            focusManager.clearFocus()
+
                         }),
-                        label = { Text("Enter Name") }
-                    )
+                        label = { Text("Enter Name") })
 
                 }
             },
@@ -158,9 +179,7 @@ fun MyAlertDialog(
                 TextButton(onClick = {
                     showDialog.value = false
                     navController.navigate(
-                        route = NavModel.DetailPage.PageArgs(id.toString(),text),
-
-                    )
+                        route = NavModel.DetailPage.PageArgs(id.toString(), text)                        )
 
                 }) {
                     Text(text = "Submit")
