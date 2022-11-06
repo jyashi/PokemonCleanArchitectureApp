@@ -24,12 +24,12 @@ import com.example.daggerhiltexample.MyViewModel
 private val _tag = "Detail Page"
 
 @Composable
-fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAnswer:String) {
+fun DetailPage(viewModel: MyViewModel,navController: NavController,modifier: Modifier,id:Int,nameAnswer:String) {
 
     val imageUrl = viewModel.listData[id].sprites["front_default"]
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
+    Box {
+        Column(modifier = modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

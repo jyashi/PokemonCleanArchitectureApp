@@ -1,6 +1,7 @@
 package com.example.daggerhiltexample.ui.theme.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -33,11 +35,11 @@ import com.example.daggerhiltexample.ui.theme.graySurface
 private val _tag = "Main Page"
 
 @Composable
-fun MainScreen(viewModel: MyViewModel, navController: NavController, appNavItemState: MutableState<AppNavType>) {
+fun MainScreen(viewModel: MyViewModel, navController: NavController, appNavItemState: MutableState<AppNavType>,modifier: Modifier) {
     val index by remember { mutableStateOf(viewModel.dataFetchCounter) }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
+
+        Column(modifier = modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -48,7 +50,7 @@ fun MainScreen(viewModel: MyViewModel, navController: NavController, appNavItemS
                 LazyGridComponent(navController = navController, viewModel = viewModel)
             }
         }
-    }
+
 
 
 

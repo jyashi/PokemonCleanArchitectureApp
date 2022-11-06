@@ -19,9 +19,7 @@ import com.example.daggerhiltexample.ui.theme.components.MainScreen
 import com.example.daggerhiltexample.ui.theme.components.SearchPage
 
 private val _tag = "NavGraph"
-//enum class AppNavType {
-//    HOME, SEARCH
-//}
+
 @Composable
 fun NavGraph(viewModel: MyViewModel,navController: NavHostController,modifier: Modifier) {
     val appNavItemState = rememberSaveable { mutableStateOf(AppNavType.HOME) }
@@ -30,7 +28,7 @@ fun NavGraph(viewModel: MyViewModel,navController: NavHostController,modifier: M
 
     NavHost(navController = navController, startDestination = NavModel.MainPage.route) {
         composable(route = NavModel.MainPage.route ) {
-            MainScreen(navController = navController, viewModel = viewModel, appNavItemState = appNavItemState)
+            MainScreen(navController = navController, viewModel = viewModel, appNavItemState = appNavItemState, modifier = modifier)
         }
         composable(route = NavModel.DetailPage.route + "/{id}/{nameAnswer}",
             arguments = listOf(
@@ -51,7 +49,8 @@ fun NavGraph(viewModel: MyViewModel,navController: NavHostController,modifier: M
                 id = entry.arguments!!.getInt("id"),
                 nameAnswer = entry.arguments!!.getString("nameAnswer")!!,
                 viewModel = viewModel,
-                navController = navController
+                navController = navController,
+                modifier = modifier
             )
 
         }
