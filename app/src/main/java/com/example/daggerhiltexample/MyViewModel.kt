@@ -23,7 +23,7 @@ fun log(string: String) {
 class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface
 ) : ViewModel() {
-    val maxItems = 21
+    val maxItems = 51
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
     var dataFetchCounter: State<Int> = _dataFetchCounter

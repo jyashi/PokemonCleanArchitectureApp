@@ -1,33 +1,49 @@
 package com.example.daggerhiltexample.ui.theme.components
 
-import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import android.service.autofill.OnClickAction
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import com.example.daggerhiltexample.MyViewModel
-import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
-import javax.inject.Inject
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
-
-class SearchPage @Inject constructor (viewModel: MyViewModel): ComponentActivity() {
-    init {
-        println("$viewModel")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-setContent{
-    DaggerHiltExampleTheme{
-        SearchPage()
-    }
-}
-    }
-
-}
 
 @Composable
-fun SearchPage(){
-    Text("Search Screen")
+fun SearchPage(modifier: Modifier) {
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Page in progress")
+        }
+        AppSearchBar { onClickAction() }
+    }
+}
+
+
+@Composable
+fun AppSearchBar(onClickAction: ()->Unit) {
+    TopAppBar(modifier = Modifier.padding(15.dp), title = {
+        Text("Search here")
+    }, actions = {
+        IconButton(onClick = {
+onClickAction()
+        }) {
+            Icon(imageVector = Icons.Filled.Search, contentDescription = null)
+        }
+    })
+
+}
+
+
+fun onClickAction():Unit {
+    println("Hello")
 }

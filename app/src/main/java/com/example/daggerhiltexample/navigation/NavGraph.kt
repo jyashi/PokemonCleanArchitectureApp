@@ -1,22 +1,22 @@
 package com.example.daggerhiltexample.navigation
 
+//import com.example.daggerhiltexample.ui.theme.components.AppSearchBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.daggerhiltexample.AppNavType
 import com.example.daggerhiltexample.MyViewModel
+import com.example.daggerhiltexample.ui.theme.components.AppSearchBar
 import com.example.daggerhiltexample.ui.theme.components.DetailPage
 import com.example.daggerhiltexample.ui.theme.components.MainScreen
 import com.example.daggerhiltexample.ui.theme.components.SearchPage
+
 
 private val _tag = "NavGraph"
 
@@ -55,7 +55,8 @@ fun NavGraph(viewModel: MyViewModel,navController: NavHostController,modifier: M
 
         }
         composable(route = NavModel.SearchPage.route){
-            SearchPage()
+
+            SearchPage(modifier = modifier)
         }
     }
 

@@ -43,8 +43,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: MyViewModel = hiltViewModel()
+            println("log1 : View model from main activity --> $viewModel")
             val navController = rememberNavController()
-            val modifier =
+
 
             DaggerHiltExampleTheme {
 
@@ -54,20 +55,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-//    companion object {
-//        const val DARK_THEME = "darkTheme"
-//        fun newIntent(context: Context, isDarkTheme: Boolean) =
-//            Intent(context, MainActivity::class.java).apply {
-//                putExtra(DARK_THEME, isDarkTheme)
-//            }
-//    }
 }
 
 @Composable
 fun AppBodyContent(viewModel: MyViewModel,navController: NavHostController){
     val appNavItemState = rememberSaveable { mutableStateOf(AppNavType.HOME) }
-//                NavGraph(viewModel = viewModel, navController)
     Scaffold(modifier = Modifier
         ,bottomBar = {
         AppBottomNavigation(
@@ -83,13 +75,9 @@ fun AppBodyContent(viewModel: MyViewModel,navController: NavHostController){
                 viewModel = viewModel,
                 navController = navController,
                 modifier = Modifier.padding(paddingValues = paddingValues).fillMaxSize().background(brush = Brush.linearGradient(
-                    listOf(Color.Gray,Color.White)
+                    listOf(Color.Gray,Color.Black)
                 ))
             )
-//                        AppBodyContent(
-//                            appNavType = appNavItemState.value,
-//                            modifier = Modifier.padding(paddingValues), viewModel, navController
-//                        )
         }
     )
 }
