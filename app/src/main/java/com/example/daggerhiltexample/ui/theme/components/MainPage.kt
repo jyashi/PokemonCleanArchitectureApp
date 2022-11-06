@@ -7,6 +7,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -22,14 +25,17 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.example.daggerhiltexample.AppNavType
 import com.example.daggerhiltexample.MyViewModel
 import com.example.daggerhiltexample.navigation.NavModel
+import com.example.daggerhiltexample.ui.theme.graySurface
 
 private val _tag = "Main Page"
 
 @Composable
-fun MainScreen(viewModel: MyViewModel, navController: NavController) {
+fun MainScreen(viewModel: MyViewModel, navController: NavController, appNavItemState: MutableState<AppNavType>) {
     val index by remember { mutableStateOf(viewModel.dataFetchCounter) }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -44,7 +50,12 @@ fun MainScreen(viewModel: MyViewModel, navController: NavController) {
         }
     }
 
+
+
+
 }
+
+
 
 @Composable
 fun LazyGridComponent(viewModel: MyViewModel, navController: NavController) {

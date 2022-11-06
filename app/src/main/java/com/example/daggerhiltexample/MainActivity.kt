@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,12 +17,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.compose.rememberNavController
 import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.navigation.NavModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
-import com.example.daggerhiltexample.ui.theme.components.MainScreen
 import com.example.daggerhiltexample.ui.theme.graySurface
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,13 +42,24 @@ class MainActivity : ComponentActivity() {
             DaggerHiltExampleTheme {
 
                 val appNavItemState = rememberSaveable { mutableStateOf(AppNavType.HOME) }
-                NavGraph(viewModel = viewModel, modifier = Modifier,navController)
-                Scaffold(bottomBar = { AppBottomNavigation(appNavItemState = appNavItemState,navController,viewModel) },
+//                NavGraph(viewModel = viewModel, navController)
+                Scaffold(bottomBar = {
+                    AppBottomNavigation(
+                        appNavItemState = appNavItemState,
+                        navController,
+                        viewModel
+                    )
+                },
                     content = { paddingValues ->
-                        AppBodyContent(
-                            appNavType = appNavItemState.value,
-                            modifier = Modifier.padding(paddingValues), viewModel, navController
+                        NavGraph(
+                            viewModel = viewModel,
+                            navController = navController,
+                            modifier = Modifier.padding(paddingValues = paddingValues)
                         )
+//                        AppBodyContent(
+//                            appNavType = appNavItemState.value,
+//                            modifier = Modifier.padding(paddingValues), viewModel, navController
+//                        )
                     }
                 )
 
@@ -71,12 +79,17 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun AppBottomNavigation(appNavItemState: MutableState<AppNavType>,navController: NavController,viewModel: MyViewModel) {
+fun AppBottomNavigation(
+    appNavItemState: MutableState<AppNavType>,
+    navController: NavController,
+    viewModel: MyViewModel
+) {
     val bottomNavBackgorund = graySurface
 
     BottomNavigation(backgroundColor = bottomNavBackgorund) {
         BottomNavigationItem(selected = appNavItemState.value == AppNavType.HOME, onClick = {
             appNavItemState.value = AppNavType.HOME
+            navController.navigate(route = NavModel.MainPage.route)
 
         },
             icon = {
@@ -85,7 +98,10 @@ fun AppBottomNavigation(appNavItemState: MutableState<AppNavType>,navController:
             label = { Text(text = "Home") }
         )
         BottomNavigationItem(selected = appNavItemState.value == AppNavType.SEARCH,
-            onClick = { appNavItemState.value = AppNavType.SEARCH },
+            onClick = {
+                appNavItemState.value = AppNavType.SEARCH
+                navController.navigate(route = NavModel.SearchPage.route)
+            },
             icon = {
                 Icon(imageVector = Icons.Outlined.Search, contentDescription = null)
             },
@@ -94,25 +110,29 @@ fun AppBottomNavigation(appNavItemState: MutableState<AppNavType>,navController:
     }
 }
 
-@Composable
-fun AppBodyContent(
-    appNavType: AppNavType,
-    modifier: Modifier = Modifier,
-    viewModel: MyViewModel,
-    navController: NavController
-) {
-    Crossfade(
-        targetState = appNavType,
-        modifier = modifier,
-    ) { navType ->
-        when (navType) {
-
-            AppNavType.HOME -> navController.navigate(route = NavModel.MainPage.route )
-            AppNavType.SEARCH -> Search()
-
-        }
-    }
-}
+//@Composable
+//fun AppBodyContent(
+//    appNavType: AppNavType,
+//    modifier: Modifier = Modifier,
+//    viewModel: MyViewModel,
+//    navController: NavController
+//) {
+//    NavGraph(
+//        viewModel = viewModel,
+//
+//    )
+//    Crossfade(
+//        targetState = appNavType,
+//        modifier = modifier,
+//    ) { navType ->
+//        when (navType) {
+//
+//            AppNavType.HOME -> navController.navigate(route = NavModel.MainPage.route )
+//            AppNavType.SEARCH -> Search()
+//
+//        }
+//    }
+//}
 
 
 @Composable
