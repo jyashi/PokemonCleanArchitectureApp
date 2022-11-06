@@ -18,9 +18,8 @@ fun log(string: String) {
     Log.d("MyViewModel", string)
 }
 
-//@InstallIn(SingletonComponent::class)
-@HiltViewModel
 
+@HiltViewModel
 class MyViewModel @Inject constructor(
     private val repositoryInterface: RepositoryInterface
 ) : ViewModel() {

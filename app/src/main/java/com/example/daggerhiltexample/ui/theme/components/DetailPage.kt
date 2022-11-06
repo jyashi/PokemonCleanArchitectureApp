@@ -1,12 +1,11 @@
 package com.example.daggerhiltexample.ui.theme.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +28,7 @@ fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAn
 
     val imageUrl = viewModel.listData[id].sprites["front_default"]
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -51,7 +50,36 @@ fun DetailPage(viewModel: MyViewModel,navController: NavController,id:Int,nameAn
             Text("Your answer : $nameAnswer")
             Text("App in progress. Check back later")
         }
+        AnimatedToolBar(navController)
 
+    }
+}
+
+
+@Composable
+fun AnimatedToolBar( navController:NavController) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        IconButton(
+            content = {Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)},
+onClick = {navController.popBackStack()}
+        )
+//        Text(
+//            text = album.song,
+//            color = MaterialTheme.colors.onSurface,
+//            modifier = Modifier
+//                .padding(16.dp)
+//                .alpha(((scrollState.value + 0.001f) / 1000).coerceIn(0f, 1f))
+//        )
+        Icon(
+            imageVector = Icons.Default.MoreVert, tint = MaterialTheme.colors.onSurface,
+            contentDescription = null
+        )
     }
 }
 

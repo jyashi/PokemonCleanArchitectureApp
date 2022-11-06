@@ -1,7 +1,10 @@
 package com.example.daggerhiltexample.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,8 +17,8 @@ import com.example.daggerhiltexample.ui.theme.components.MainScreen
 private val _tag = "NavGraph"
 
 @Composable
-fun NavGraph(viewModel: MyViewModel) {
-    val navController = rememberNavController()
+fun NavGraph(viewModel: MyViewModel,modifier: Modifier,navController:NavHostController) {
+//    val navController = rememberNavController()
     println("log1 : $_tag $viewModel")
 
     NavHost(navController = navController, startDestination = NavModel.MainPage.route) {
