@@ -25,3 +25,4 @@ fun LoadingBar(showing: Boolean, text: String, modifier: Modifier) {
     }
 
 }
+

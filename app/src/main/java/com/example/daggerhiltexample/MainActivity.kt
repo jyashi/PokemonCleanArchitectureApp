@@ -46,12 +46,8 @@ class MainActivity : ComponentActivity() {
             println("log1 : View model from main activity --> $viewModel")
             val navController = rememberNavController()
 
-
             DaggerHiltExampleTheme {
-
             AppBodyContent(viewModel = viewModel, navController = navController)
-
-
             }
         }
     }

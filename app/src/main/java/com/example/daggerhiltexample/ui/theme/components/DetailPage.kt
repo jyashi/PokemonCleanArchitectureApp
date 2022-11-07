@@ -69,13 +69,7 @@ fun AnimatedToolBar( navController:NavController) {
             content = {Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)},
 onClick = {navController.popBackStack()}
         )
-//        Text(
-//            text = album.song,
-//            color = MaterialTheme.colors.onSurface,
-//            modifier = Modifier
-//                .padding(16.dp)
-//                .alpha(((scrollState.value + 0.001f) / 1000).coerceIn(0f, 1f))
-//        )
+
         Icon(
             imageVector = Icons.Default.MoreVert, tint = MaterialTheme.colors.onSurface,
             contentDescription = null

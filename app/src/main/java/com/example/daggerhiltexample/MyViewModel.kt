@@ -9,13 +9,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+private val _tag = "MyViewModel"
 fun log(string: String) {
-    Log.d("MyViewModel", string)
+    Log.d(_tag, string)
 }
 
 
@@ -27,24 +29,23 @@ class MyViewModel @Inject constructor(
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
     var dataFetchCounter: State<Int> = _dataFetchCounter
-    private val _data =
-        mutableStateOf(
-            ApiDetailResponse(
-                id = 1,
-                name = "name",
-                types = emptyList(),
-                sprites = mutableMapOf()
-            )
+    private val _data = mutableStateOf(
+        ApiDetailResponse(
+            id = 1, name = "name", types = emptyList(), sprites = mutableMapOf()
         )
+    )
     var data: MutableState<ApiDetailResponse> = _data
     private var _listData = mutableListOf<ApiDetailResponse>()
     var listData: List<ApiDetailResponse> = _listData
+    private val exceptionHandler =
+        CoroutineExceptionHandler { _, throwable -> log("Exception Captured") }
 
 
     init {
         try {
             getPokemonList()
-        }catch (e:Exception){
+        } catch (e: Exception) {
+
             println("Log : Connection Exception")
         }
     }
@@ -52,37 +53,28 @@ class MyViewModel @Inject constructor(
 
     private fun getPokemonList() {
         isLoading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(exceptionHandler) {
             for (index: Int in 1..maxItems) {
-                println("log : Calling api with index $index")
-                _data.value =
-                    withContext(Dispatchers.Default) {
-                        try {
-                            repositoryInterface.netWorkGetRequest(index.toString()).body()!!
-                        }
-                        catch (e: Exception){
-                            //TODO Display default data if request failed
-                            println("Log : Connection Exception --> $e")
-                            ApiDetailResponse(id = 0,name=e.toString(), types = emptyList(), sprites = mapOf())
-                        }
+                _data.value = withContext(exceptionHandler) {
 
+                    try {
+                        repositoryInterface.netWorkGetRequest(index.toString()).body()!!
+                    } catch (e: Exception) {
+                        //TODO Display error dialog if request failed
+                        ApiDetailResponse(
+                            id = 0, name = e.toString(), types = emptyList(), sprites = mapOf()
+                        )
                     }
+
+                }
 
                 _listData.add(_data.value)
                 _dataFetchCounter.value = index
-                println("log : _dataFetchCounter updated $_dataFetchCounter")
-
-                println("log : Adding result to list --> ${_listData}")
-                println("log : After adding size is --> ${_listData.size}")
-                println("log : ending deffered")
             }
             isLoading.value = false
 
         }
     }
-
-
-
 
 
 }
