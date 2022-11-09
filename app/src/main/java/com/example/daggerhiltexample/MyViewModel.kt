@@ -6,11 +6,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daggerhiltexample.data.network.repository.database
 import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,8 +23,10 @@ fun log(string: String) {
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val repositoryInterface: RepositoryInterface
+    private val repositoryInterface: RepositoryInterface,
+    private val database: database
 ) : ViewModel() {
+
     val maxItems = 51
     var isLoading: MutableState<Boolean> = mutableStateOf(false)
     var _dataFetchCounter = mutableStateOf(1)
@@ -42,6 +44,7 @@ class MyViewModel @Inject constructor(
 
 
     init {
+        println("log : View model database --> $database")
         try {
             getPokemonList()
         } catch (e: Exception) {

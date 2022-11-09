@@ -1,4 +1,4 @@
-package com.example.daggerhiltexample.data.network
+package com.example.daggerhiltexample.data.network.network
 
 import com.example.daggerhiltexample.model.ApiDetailResponse
 import retrofit2.Response

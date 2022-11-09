@@ -1,19 +1,17 @@
 package com.example.daggerhiltexample.di
 
 import android.app.Application
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.daggerhiltexample.MyViewModel
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.daggerhiltexample.repository.RepositoryImpl
 import com.example.daggerhiltexample.repository.RepositoryInterface
-import com.example.daggerhiltexample.data.network.ApiInterface
+import com.example.daggerhiltexample.data.network.network.ApiInterface
+import com.example.daggerhiltexample.data.network.repository.database
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -41,6 +39,11 @@ object DiModule {
         return RepositoryImpl(injectApi(), appContext)
     }
 
+    @Provides
+    @Singleton
+    fun injectDatabase(application: Application): database{
+    return database.getDatabase(application.applicationContext)
+    }
 
 //    @Provides
 //    @Singleton
