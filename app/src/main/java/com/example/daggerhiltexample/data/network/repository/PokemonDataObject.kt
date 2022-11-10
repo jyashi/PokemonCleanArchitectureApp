@@ -11,3 +11,5 @@ data class PokemonDataObject(
     val type: String,
     val sprite: String,
 )
+
+

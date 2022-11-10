@@ -6,6 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daggerhiltexample.data.network.repository.PokemonDataObject
 import com.example.daggerhiltexample.data.network.repository.database
 import com.example.daggerhiltexample.model.ApiDetailResponse
 import com.example.daggerhiltexample.repository.RepositoryInterface
@@ -44,17 +45,24 @@ class MyViewModel @Inject constructor(
 
 
     init {
-        println("log : View model database --> $database")
+//        viewModelScope.launch {
+//            if(database.dao.getListData().isEmpty()){
+//
+//            }
+//        }
+
         try {
-            getPokemonList()
+            getPokemonListFromApi()
+
         } catch (e: Exception) {
 
             println("Log : Connection Exception")
         }
+
     }
 
 
-    private fun getPokemonList() {
+    private fun getPokemonListFromApi() {
         isLoading.value = true
         viewModelScope.launch(exceptionHandler) {
             for (index: Int in 1..maxItems) {
@@ -74,9 +82,23 @@ class MyViewModel @Inject constructor(
                 _listData.add(_data.value)
                 _dataFetchCounter.value = index
             }
+            savePokemonListInDatabase(listData)
             isLoading.value = false
 
         }
+    }
+
+    private suspend fun savePokemonListInDatabase(data: List<ApiDetailResponse>) {
+       data.forEach {
+           database.dao.insertData(PokemonDataObject(
+               id = it.id,
+               name = it.name,
+               type = it.types.toString(),
+               sprite = it.sprites.toString()
+           ))
+       }
+
+
     }
 
 
