@@ -1,5 +1,11 @@
-# DaggerHiltExample
-An example usecase for Dagger Hilt dependency injection
+# PokemonCleanArchitectureApp
+
+An app that shows Pokemon information using clean architecture principles, design patterns and libraries including:
+- MVVM as state holder
+- Retrofit for API calls
+- Room for caching data
+- Jetpack Compose for UI design
+- Coroutines for thread safe operations
 
 - Makes API calls to fetch the pokemon data and then show the data in a Lazy Vertical Grid.
 
