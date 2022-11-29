@@ -1,4 +1,4 @@
-package com.example.daggerhiltexample.model
+package com.example.daggerhiltexample.domain.model
 
 import com.squareup.moshi.Json
 

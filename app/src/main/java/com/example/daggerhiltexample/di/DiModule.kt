@@ -1,12 +1,10 @@
 package com.example.daggerhiltexample.di
 
 import android.app.Application
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.example.daggerhiltexample.repository.RepositoryImpl
-import com.example.daggerhiltexample.repository.RepositoryInterface
-import com.example.daggerhiltexample.data.network.network.ApiInterface
-import com.example.daggerhiltexample.data.network.repository.database
+import com.example.daggerhiltexample.data.repository.RepositoryImpl
+import com.example.daggerhiltexample.domain.repository.RepositoryInterface
+import com.example.daggerhiltexample.data.network.ApiInterface
+import com.example.daggerhiltexample.data.repository.database
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -41,15 +39,11 @@ object DiModule {
 
     @Provides
     @Singleton
-    fun injectDatabase(application: Application): database{
+    fun injectDatabase(application: Application): database {
     return database.getDatabase(application.applicationContext)
     }
 
-//    @Provides
-//    @Singleton
-//    fun injectViewModel(): HiltViewModel{
-//        return HiltViewModel()
-//    }
+
 
     @Provides
     @Singleton

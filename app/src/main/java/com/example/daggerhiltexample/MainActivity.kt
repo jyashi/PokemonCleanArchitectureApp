@@ -1,7 +1,5 @@
 package com.example.daggerhiltexample
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,23 +19,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Room
-import com.example.daggerhiltexample.data.network.repository.PokemonDataObject
-import com.example.daggerhiltexample.data.network.repository.database
+import com.example.daggerhiltexample.data.repository.database
 import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.navigation.NavModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
 import com.example.daggerhiltexample.ui.theme.graySurface
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private val _tag = "MainActivity"

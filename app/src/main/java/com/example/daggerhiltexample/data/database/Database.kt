@@ -1,10 +1,11 @@
-package com.example.daggerhiltexample.data.network.repository
+package com.example.daggerhiltexample.data.repository
 
 import android.content.Context
 import androidx.room.RoomDatabase
 import androidx.room.Database
 import androidx.room.Room
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.daggerhiltexample.data.database.daoObject
+import com.example.daggerhiltexample.domain.model.PokemonDataObject
 
 @Database(
     entities = [PokemonDataObject::class],

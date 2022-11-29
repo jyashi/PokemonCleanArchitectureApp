@@ -6,10 +6,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.daggerhiltexample.data.network.repository.PokemonDataObject
-import com.example.daggerhiltexample.data.network.repository.database
-import com.example.daggerhiltexample.model.ApiDetailResponse
-import com.example.daggerhiltexample.repository.RepositoryInterface
+import com.example.daggerhiltexample.domain.model.PokemonDataObject
+import com.example.daggerhiltexample.data.repository.database
+import com.example.daggerhiltexample.domain.model.ApiDetailResponse
+import com.example.daggerhiltexample.domain.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -90,12 +90,14 @@ class MyViewModel @Inject constructor(
 
     private suspend fun savePokemonListInDatabase(data: List<ApiDetailResponse>) {
        data.forEach {
-           database.dao.insertData(PokemonDataObject(
+           database.dao.insertData(
+               PokemonDataObject(
                id = it.id,
                name = it.name,
                type = it.types.toString(),
                sprite = it.sprites.toString()
-           ))
+           )
+           )
        }
 
 

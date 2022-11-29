@@ -1,6 +1,6 @@
-package com.example.daggerhiltexample.data.network.network
+package com.example.daggerhiltexample.data.network
 
-import com.example.daggerhiltexample.model.ApiDetailResponse
+import com.example.daggerhiltexample.domain.model.ApiDetailResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

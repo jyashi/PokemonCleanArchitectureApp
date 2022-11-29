@@ -1,10 +1,10 @@
-package com.example.daggerhiltexample.data.network.repository
+package com.example.daggerhiltexample.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.daggerhiltexample.model.ApiDetailResponse
+import com.example.daggerhiltexample.domain.model.PokemonDataObject
 
 @Dao
 interface daoObject {

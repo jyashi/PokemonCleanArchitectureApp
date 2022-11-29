@@ -1,4 +1,4 @@
-package com.example.daggerhiltexample.data.network.repository
+package com.example.daggerhiltexample.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
