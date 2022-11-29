@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.daggerhiltexample.domain.model.PokemonDataObject
-import com.example.daggerhiltexample.data.repository.database
+import com.example.daggerhiltexample.data.database.database
 import com.example.daggerhiltexample.domain.model.ApiDetailResponse
 import com.example.daggerhiltexample.domain.repository.RepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +47,12 @@ class MyViewModel @Inject constructor(
 
 
     init {
+        viewModelScope.launch{
+
+
+                database.dao.getListData()
+
+        }
 //        viewModelScope.launch {
 //            if(database.dao.getListData().isEmpty()){
 //

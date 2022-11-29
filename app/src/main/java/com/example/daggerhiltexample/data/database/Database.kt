@@ -1,4 +1,4 @@
-package com.example.daggerhiltexample.data.repository
+package com.example.daggerhiltexample.data.database
 
 import android.content.Context
 import androidx.room.RoomDatabase
@@ -15,23 +15,7 @@ abstract class database : RoomDatabase() {
     abstract val dao: daoObject
 
     companion object {
-        @Volatile
-        private var INSTANCE: database? = null
+        const val DATABASE_NAME = "pokemon.db"
 
-        fun getDatabase(context: Context): database {
-            if (INSTANCE == null) {
-                synchronized(this) {
-                   INSTANCE = Room.databaseBuilder(
-                        context.applicationContext,
-                        database::class.java,
-                        "pokemon.db"
-                    ).build()
-
-                }
-
-            }
-            return INSTANCE!!
-
-        }
     }
 }

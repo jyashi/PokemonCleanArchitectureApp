@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.daggerhiltexample.data.repository.database
+import com.example.daggerhiltexample.data.database.database
 import com.example.daggerhiltexample.navigation.NavGraph
 import com.example.daggerhiltexample.navigation.NavModel
 import com.example.daggerhiltexample.ui.theme.DaggerHiltExampleTheme
@@ -44,13 +44,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: MyViewModel = hiltViewModel()
-            val db = database.getDatabase(context = this)
+//            val db = database.getDatabase(context = this)
 
-            rememberCoroutineScope(){
-                lifecycleScope.launch {
-                    db.dao.getListData()
-                }
-            }
+
             val navController = rememberNavController()
 //            rememberCoroutineScope(){
 //                lifecycleScope.launch {
