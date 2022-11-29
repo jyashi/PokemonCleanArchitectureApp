@@ -45,7 +45,7 @@ private val _tag = "MainActivity"
 enum class AppNavType {
     HOME, SEARCH
 }
-
+// Added prototype branch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
